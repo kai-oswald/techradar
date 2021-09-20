@@ -1,18 +1,24 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Radar title="Tech radar" :technologies="technologies" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Radar from '@/components/Radar.vue'
+import technologies from '@/data/technologies.json';
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    Radar
+  },
+  data() {
+    return {
+      technologies,
+
+    }
   }
 }
 </script>

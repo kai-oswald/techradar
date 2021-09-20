@@ -1,5 +1,8 @@
 # techradar
 
+
+## Tools and libraries used
+- [Zalando tech radar](https://github.com/zalando/tech-radar/)
 ## Project setup
 ```
 npm install
