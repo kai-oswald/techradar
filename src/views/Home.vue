@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Radar title="Tech radar" :technologies="technologies" />
+    <Radar title="Tech radar" :technologies="technologies" :rings="rings" :quadrants="quadrants"/>
   </div>
 </template>
 
@@ -13,10 +13,12 @@ export default {
   components: {
     Radar
   },
+  inject: ["store"],
   data() {
     return {
       technologies,
-
+      quadrants: [...this.store.state.quadrants],
+      rings: [...this.store.state.rings],
     }
   }
 }

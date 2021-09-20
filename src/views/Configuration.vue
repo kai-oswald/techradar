@@ -11,19 +11,26 @@
 </template>
 
 <script>
-import { quadrants, rings } from "@/data/defaults";
 import ItemList from "@/components/ItemList.vue";
 
 export default {
   components: {
-    ItemList
+    ItemList,
   },
+  inject: ["store"],
   data() {
     return {
-      quadrants: [...quadrants ],
-      rings: [...rings ],
+      quadrants: [...this.store.state.quadrants],
+      rings: [...this.store.state.rings],
+    };
+  },
+  watch: {
+    quadrants(val) {
+      this.store.setQuadrants(val);
+    },
+    rings(val) {
+      this.store.setRings(val);
     }
   }
-  
-}
+};
 </script>

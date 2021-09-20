@@ -5,6 +5,14 @@
   </div>
   <router-view/>
 </template>
+<script>
+import { store } from "@/store.js";
+export default {
+  provide: {
+    store,
+  }
+}
+</script>
 
 <style lang="scss">
 #app {

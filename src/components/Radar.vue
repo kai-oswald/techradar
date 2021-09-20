@@ -16,21 +16,11 @@ export default {
     },
     quadrants: {
       type: Array,
-      default: () => [
-        { name: "Languages" },
-        { name: "Infrastructure" },
-        { name: "Datastores" },
-        { name: "Data Management" },
-      ],
+      required: true,
     },
     rings: {
       type: Array,
-      default: () => [
-        { name: "ADOPT", color: "#93c47d" },
-        { name: "TRIAL", color: "#93d2c2" },
-        { name: "ASSESS", color: "#fbdb84" },
-        { name: "HOLD", color: "#efafa9" },
-      ],
+      require: true,
     },
   },
   methods: {
@@ -45,18 +35,8 @@ export default {
           inactive: "#ddd",
         },
         title: this.title,
-        quadrants: [
-          { name: "Languages" },
-          { name: "Infrastructure" },
-          { name: "Datastores" },
-          { name: "Data Management" },
-        ],
-        rings: [
-          { name: "ADOPT", color: "#93c47d" },
-          { name: "TRIAL", color: "#93d2c2" },
-          { name: "ASSESS", color: "#fbdb84" },
-          { name: "HOLD", color: "#efafa9" },
-        ],
+        quadrants: this.quadrants,
+        rings: this.rings,
         print_layout: true,
         entries: this.technologies,
       });
@@ -64,7 +44,7 @@ export default {
   },
   mounted() {
     this.renderRadar();
-  }
+  },
 };
 </script>
 
