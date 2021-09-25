@@ -35,11 +35,6 @@ export default {
       items.splice(items.indexOf(item), 1);
       this.$emit("update:modelValue", items);
     },
-    // editItem(item) {
-    //     let items = [...this.modelValue];
-    //     let item = items.find(item);
-
-    // }
   },
 };
 </script>
