@@ -3,15 +3,18 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/config">Configuration</router-link>
   </div>
-  <router-view/>
+  <div class="container mx-auto">
+    <router-view />
+  </div>
 </template>
+
 <script>
 import { store } from "@/store.js";
 export default {
   provide: {
     store,
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss">

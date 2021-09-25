@@ -1,11 +1,9 @@
 <template>
   <div class="configuration">
-    <h1>This is the configuration page</h1>
-
-    <h2>Quadrants</h2>
+    <h2 class="text-xl font-semibold">Quadrants</h2>
     <ItemList v-model="quadrants" />
-
-    <h2>Rings</h2>
+    <hr style="max-width: 80%" class="my-4 mx-auto" />
+    <h2 class="text-xl font-semibold">Rings</h2>
     <ItemList v-model="rings" />
   </div>
 </template>
@@ -30,7 +28,7 @@ export default {
     },
     rings(val) {
       this.store.setRings(val);
-    }
-  }
+    },
+  },
 };
 </script>
