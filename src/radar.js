@@ -39,12 +39,37 @@ export function radar_visualization(config) {
   }
 
   // radial_min / radial_max are multiples of PI
-  const quadrants = [
-    { radial_min: 0, radial_max: 0.5, factor_x: 1, factor_y: 1 },
-    { radial_min: 0.5, radial_max: 1, factor_x: -1, factor_y: 1 },
-    { radial_min: -1, radial_max: -0.5, factor_x: -1, factor_y: -1 },
-    { radial_min: -0.5, radial_max: 0, factor_x: 1, factor_y: -1 },
-  ];
+  let quadrants = [];
+  const quadrantSize = 2 / config.quadrants.length;
+  for (var i = 0; i < config.quadrants.length; i++) {
+    // multiply of pi start
+    let radialMin = i * quadrantSize;
+    // multiply of pi end
+    let radialMax = (i + 1) * quadrantSize;
+
+    // last half of quadrants are negative
+    let factorY = i >= config.quadrants.length / 2 ? -1 : 1;
+    let quarterSize = config.quadrants.length / 4;
+    // first quarter and last quarter are positive
+    let factorX =
+      i < quarterSize || i >= config.quadrants.length - quarterSize ? 1 : -1;
+
+    // radial values must be between -1 and 1, because they are multiples of pi.
+    if (radialMax > 1) {
+      radialMax = radialMax - 2;
+    }
+
+    if (radialMin >= 1) {
+      radialMin = radialMin - 2;
+    }
+
+    quadrants.push({
+      radial_min: radialMin,
+      radial_max: radialMax,
+      factor_x: factorX,
+      factor_y: factorY,
+    });
+  }
 
   let rings = [];
   const maxRadius = 400;
@@ -65,8 +90,10 @@ export function radar_visualization(config) {
     { x: 450, y: -310 },
   ];
 
-   // filter out invalid entries (entries that do not match with the configuration)
-   config.entries = config.entries.filter(c => c.quadrant < config.quadrants.length && c.ring < config.rings.length);
+  // filter out invalid entries (entries that do not match with the configuration)
+  config.entries = config.entries.filter(
+    (c) => c.quadrant < config.quadrants.length && c.ring < config.rings.length
+  );
 
   function polar(cartesian) {
     var x = cartesian.x;
@@ -146,10 +173,6 @@ export function radar_visualization(config) {
   // position each entry randomly in its segment
   for (var i = 0; i < config.entries.length; i++) {
     var entry = config.entries[i];
-    if(entry.quadrant > config.quadrants.length || entry.ring > config.rings.length) {
-      console.log("Entry config invalid for specified configuration. Skipping entry..", entry);
-      continue;
-    }
     entry.segment = segment(entry.quadrant, entry.ring);
     var point = entry.segment.random();
     entry.x = point.x;
@@ -222,23 +245,25 @@ export function radar_visualization(config) {
 
   var grid = radar.append("g");
 
-  // draw grid lines
-  grid
-    .append("line")
-    .attr("x1", 0)
-    .attr("y1", -400)
-    .attr("x2", 0)
-    .attr("y2", 400)
-    .style("stroke", config.colors.grid)
-    .style("stroke-width", 1);
-  grid
-    .append("line")
-    .attr("x1", -400)
-    .attr("y1", 0)
-    .attr("x2", 400)
-    .attr("y2", 0)
-    .style("stroke", config.colors.grid)
-    .style("stroke-width", 1);
+  // draw grid lines 
+  if (quadrants.length > 1) {
+    for (var i = 0; i < quadrants.length; i++) {
+      var angle = (360 / quadrants.length) * i;
+      var rad = (angle * Math.PI) / 180;
+      var r = maxRadius;
+      var x = r * Math.cos(rad);
+      var y = r * Math.sin(rad);
+
+      grid
+        .append("line")
+        .attr("x1", x)
+        .attr("y1", y)
+        .attr("x2", 0)
+        .attr("y2", 0)
+        .style("stroke", config.colors.grid)
+        .style("stroke-width", 1);
+    }
+  }
 
   // background color. Usage `.attr("filter", "url(#solid)")`
   // SOURCE: https://stackoverflow.com/a/31013492/2609980
@@ -430,8 +455,6 @@ export function radar_visualization(config) {
     legendItem?.removeAttribute("filter");
     legendItem?.removeAttribute("fill");
   }
-
- 
 
   // draw blips on radar
   var blips = rink
