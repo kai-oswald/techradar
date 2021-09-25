@@ -65,6 +65,9 @@ export function radar_visualization(config) {
     { x: 450, y: -310 },
   ];
 
+   // filter out invalid entries (entries that do not match with the configuration)
+   config.entries = config.entries.filter(c => c.quadrant < config.quadrants.length && c.ring < config.rings.length);
+
   function polar(cartesian) {
     var x = cartesian.x;
     var y = cartesian.y;
@@ -143,6 +146,10 @@ export function radar_visualization(config) {
   // position each entry randomly in its segment
   for (var i = 0; i < config.entries.length; i++) {
     var entry = config.entries[i];
+    if(entry.quadrant > config.quadrants.length || entry.ring > config.rings.length) {
+      console.log("Entry config invalid for specified configuration. Skipping entry..", entry);
+      continue;
+    }
     entry.segment = segment(entry.quadrant, entry.ring);
     var point = entry.segment.random();
     entry.x = point.x;
@@ -414,15 +421,17 @@ export function radar_visualization(config) {
 
   function highlightLegendItem(d) {
     var legendItem = document.getElementById("legendItem" + d.id);
-    legendItem.setAttribute("filter", "url(#solid)");
-    legendItem.setAttribute("fill", "white");
+    legendItem?.setAttribute("filter", "url(#solid)");
+    legendItem?.setAttribute("fill", "white");
   }
 
   function unhighlightLegendItem(d) {
     var legendItem = document.getElementById("legendItem" + d.id);
-    legendItem.removeAttribute("filter");
-    legendItem.removeAttribute("fill");
+    legendItem?.removeAttribute("filter");
+    legendItem?.removeAttribute("fill");
   }
+
+ 
 
   // draw blips on radar
   var blips = rink
