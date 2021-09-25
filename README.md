@@ -1,8 +1,12 @@
 # techradar
 
-
 ## Tools and libraries used
 - [Zalando tech radar](https://github.com/zalando/tech-radar/)
+- [Tailwindcss](https://tailwindcss.com/)
+
+## Configure
+Technologies can be configured by editing [`src/data/technologies.json`](./src/data/technologies.json).
+If technologies fall out of bounds for the radar configuration they will be ignored and filtered out.
 ## Project setup
 ```
 npm install
