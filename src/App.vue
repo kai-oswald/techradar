@@ -1,8 +1,5 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/config">Configuration</router-link>
-  </div>
+  <NavBar />
   <div class="container mx-auto">
     <router-view />
   </div>
@@ -10,7 +7,12 @@
 
 <script>
 import { store } from "@/store.js";
+import NavBar from "@/components/NavBar";
+
 export default {
+  components: {
+    NavBar,
+  },
   provide: {
     store,
   },
@@ -24,18 +26,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>
